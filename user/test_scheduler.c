@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     }
 
     int tickets = atoi(argv[1]);
-    if (settkts(tickets) < 0) {
+    if (settickets(tickets) < 0) {
         printf("settickets failed\n");
         exit(1);
     }
