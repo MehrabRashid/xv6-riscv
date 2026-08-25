@@ -19,12 +19,29 @@ extern void forkret(void);
 static void freeproc(struct proc *p);
 
 extern char trampoline[]; // trampoline.S
-uint64
-random(void)
+int
+do_rand(unsigned long *ctx)
 {
-  static uint64 s=123456789;
-  s=s*110351524+ 12345;
-  return s;
+    long hi, lo, x;
+
+    x = (*ctx % 0x7ffffffe) + 1;
+    hi = x / 127773;
+    lo = x % 127773;
+    x = 16807 * lo - 2836 * hi;
+    if (x < 0)
+        x += 0x7fffffff;
+
+    x--;
+    *ctx = x;
+    return (x);
+}
+
+unsigned long rand_next = 1;
+
+int
+rand(void)
+{
+    return (do_rand(&rand_next));
 }
 
 // helps ensure that wakeups of wait()ing
@@ -456,7 +473,7 @@ scheduler(void)
       asm volatile("wfi");
       continue;
     }
-    int win_tkt =random()%total;
+    int win_tkt =rand()%total;
     for (p=proc;p<&proc[NPROC];p++){
       acquire(&p->lock);
       if (p->state==RUNNABLE){
