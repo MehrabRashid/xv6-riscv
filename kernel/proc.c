@@ -464,6 +464,7 @@ scheduler(void)
           p->state=RUNNING;
           c->proc=p;
           swtch(&c->context,&p->context);
+          p->rnd++;
           mycpu()->intena = 0;
           c->proc=0;
           release(&p->lock);
@@ -472,6 +473,7 @@ scheduler(void)
         win_tkt-=p->tkt;
       }
       release(&p->lock);
+      
     }
   }
 }
@@ -702,7 +704,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    printk("%d %s %s", p->pid, state, p->name);
+    printk("%d %s %s rounds=%d",p->pid,state,p->name,p->rnd);
     printk("\n");
   }
 }
