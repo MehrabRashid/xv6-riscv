@@ -38,7 +38,7 @@ entry("link");
 entry("mkdir");
 entry("chdir");
 entry("dup");
-entry("settkts");
+entry("settickets");
 entry("getpid");
 entry("sbrk");
 entry("pause");
