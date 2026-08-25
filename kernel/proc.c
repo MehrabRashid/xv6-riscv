@@ -19,6 +19,13 @@ extern void forkret(void);
 static void freeproc(struct proc *p);
 
 extern char trampoline[]; // trampoline.S
+uint64
+random(void)
+{
+  static uint64 s=123456789;
+  s=s*110351524+ 12345;
+  return s;
+}
 
 // helps ensure that wakeups of wait()ing
 // parents are not lost. helps obey the
