@@ -111,20 +111,16 @@ sys_uptime(void)
   return xticks;
 }
 uint64
-sys_settkts(void){
-  int pid;
-  int tkt;
-  argint(0, &pid);
-  argint(1, &tkt);
-  struct proc *p;
-  for (p=proc;p<&proc[NPROC];p++){
-    acquire(&p->lock);
-    if (p->pid==pid){
-      p->tkt=tkt;
-      release(&p->lock);
-      return 0;
-    }
-    release(&p->lock);
-  }
-  return -1;
+sys_settkts(void)
+{
+  int n;
+  argint(0, &n);
+  if(n <= 0)
+    return -1;
+  struct proc *p=myproc();
+  acquire(&p->lock);
+  p->tkt = n;
+  release(&p->lock);
+  return 0;
 }
+
