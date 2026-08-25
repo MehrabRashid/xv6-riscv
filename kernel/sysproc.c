@@ -111,7 +111,7 @@ sys_uptime(void)
   return xticks;
 }
 uint64
-sys_settkts(void)
+sys_settickets(void)
 {
   int n;
   argint(0, &n);
