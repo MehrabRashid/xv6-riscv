@@ -291,6 +291,8 @@ kfork(void)
   np->cwd = idup(p->cwd);
 
   safestrcpy(np->name, p->name, sizeof(p->name));
+  np->tkt = p->tkt;
+  np->rnd =0;
 
   pid = np->pid;
 
